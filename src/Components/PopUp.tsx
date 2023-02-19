@@ -26,6 +26,13 @@ const BigOverview = styled.p`
   color: ${(props) => props.theme.white.lighter};
 `;
 
+const Genre = styled.span`
+  font-weight: 500;
+  font-size: 15px;
+  position: absolute;
+  right: 15px;
+`;
+
 interface IPopUp {
     cat: string;
     clickedMovie : INetFlix;
@@ -34,7 +41,6 @@ interface IPopUp {
 export default function PopUp(data : IPopUp){
     const {data:videoData} = useQuery(["video"], () => getVideo(data.cat, data.clickedMovie.id));
     const {data:movieGData} = useQuery<IGenreResult>(["movieGenre"], getGenreMovies);
-    const {data:tvGData} = useQuery<IGenreResult>(["tvGenre"], getGenreTvs);
     const grade = data.clickedMovie.vote_average/2;
 
     return(
@@ -69,9 +75,17 @@ export default function PopUp(data : IPopUp){
                   </span>
                 </BigTitle>
                 <BigOverview>
-                    {data.clickedMovie.overview ? 
-                      data.clickedMovie.overview :
+                    {data.clickedMovie.overview ? data.clickedMovie.overview :
                       <>
+                        <Genre>장르 : 
+                          {data.clickedMovie.genre_ids.map((id) => 
+                            <span>
+                              {movieGData?.genres.map((genre) => id === genre.id ? 
+                                <span> {genre.name} </span> : 
+                                null)} 
+                            </span>
+                          )}
+                        </Genre>
                       </>
                     }
                 </BigOverview>

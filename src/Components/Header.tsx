@@ -144,8 +144,8 @@ function Header(){
     const history = useHistory();
     const {register, handleSubmit, setValue} = useForm<IForm>();
     const onValid = (data:IForm) => {
-      //window.location.replace(`/search?keyword=${data.keyword}`);
-      history.push(`/search?keyword=${data.keyword}`); //history.push를 하면 검색어가 바로 바뀌지 않으므로 window.location.replace를 사용
+      window.location.replace(`/search?keyword=${data.keyword}`);
+      //history.push(`/search?keyword=${data.keyword}`); //history.push를 하면 검색어가 바로 바뀌지 않으므로 window.location.replace를 사용
       //alert("왜 꼭 alert을 띄워줘야 바로 동작하지?");
     } 
 
