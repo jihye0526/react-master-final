@@ -5,6 +5,8 @@ import App from "./App";
 import { theme } from "./theme";
 import { createGlobalStyle } from "styled-components";
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { RouterProvider } from 'react-router-dom';
+import router from './Router';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -83,7 +85,8 @@ root.render(
       <QueryClientProvider client={client}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <App />
+          {/* <App /> */}
+          <RouterProvider router={router}></RouterProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </RecoilRoot>

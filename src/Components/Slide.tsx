@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useNavigate, useMatch } from "react-router-dom";
 import styled from "styled-components";
 import { IGetNetFlixResult } from "../api";
 import { makeImagePath } from "../utils";
@@ -69,6 +69,7 @@ const BigMovie = styled(motion.div)`
   overflow: hidden;
   background-color: ${(props) => props.theme.black.lighter};
   z-index: 1;
+  overflow-y: scroll;
 `;
 
 const SliderTitle = styled.div`
@@ -142,13 +143,14 @@ interface ISlideProps {
 }
 
 export default function Slide({title, cat, data} : ISlideProps){
-    const history = useHistory();
+    const navigate = useNavigate();
     const [idx, setIdx] = useState(0);
     const [leaving, setLeaving] = useState(false);
     const toggleLeaving = () => setLeaving(prev => !prev);
-    const onBoxClicked = (movieId:number) => { history.push(`/${cat}/${title}/${movieId}`) }; 
-    const onOverlayClick = () => {history.push(`/${cat}`);}
-    const bigMovieMatch = useRouteMatch<{ cat:string, title:string, movieId: string }>("/:cat/:title/:movieId");
+    const onBoxClicked = (movieId:number) => { navigate(`/${cat}/${title}/${movieId}`) }; 
+    const onOverlayClick = () => {navigate(`/${cat}`);}
+    const bigMovieMatch = useMatch("/:cat/:title/:movieId");
+    //const bigMovieMatch = useMatch<{ cat:string, title:string, movieId: string }>("/:cat/:title/:movieId");
     const [reData, setReData] = useState(data.results);
     const {scrollY} = useScroll();
     const clickedMovie = bigMovieMatch?.params.title === title && bigMovieMatch?.params.movieId && data.results?.find(movie => movie.id+"" === bigMovieMatch.params.movieId);

@@ -63,6 +63,7 @@ function Search(){
     const keyword = new URLSearchParams(location.search).get("keyword");
     
     const useMultipleQuery = () => {
+        console.log("keyword", keyword)
         const movies = useQuery<IGetNetFlixResult>(["search", "searchMovie"], () => getSearchMovies(keyword || ""));
         const tvs = useQuery<IGetNetFlixResult>(["search", "searchTv"], () => getSearchTvs(keyword || ""));
       
@@ -78,7 +79,6 @@ function Search(){
     let totalResult = (!srchMovieData?.total_results ? 0 : srchMovieData?.total_results) + (!srchTvData?.total_results ? 0 : srchTvData?.total_results);
 
     useEffect(() => {
-        //useMultipleQuery();
         if(srchMovieData !== undefined && srchTvData !== undefined){
             totalResult = srchMovieData?.total_results + srchMovieData?.total_results;
         }

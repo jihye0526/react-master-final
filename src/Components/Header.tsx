@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { motion, useAnimation, useScroll } from "framer-motion";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate, useMatch } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useQuery } from "react-query";
+import { getSearchMovies, IGetNetFlixResult } from "../api";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -113,12 +115,13 @@ interface IForm {
 
 function Header(){
     const [searchOpen, setSearchOpen] = useState(false);
-    const homeMatch = useRouteMatch("/"); // '/tv'가 들어와도 '/'를 포함하고 있어서 true를 반환하므로 isExact로 비교해야함
-    const movieMatch = useRouteMatch("/movie");
-    const tvMatch = useRouteMatch("/tv");
+    const movieMatch = useMatch("/movie");
+    const tvMatch = useMatch("/tv");
+    const searchMatch = useMatch("/search");
     const inputAnimation = useAnimation();
     const navAnimation = useAnimation();
     const { scrollY } = useScroll(); // useViewportScroll -> useScroll로 변경
+    
     const toggleSearch = () => {
         if (searchOpen) {
             inputAnimation.start({
@@ -129,6 +132,7 @@ function Header(){
         }
         setSearchOpen((prev) => !prev);
     };
+
     useEffect(() => {
         function updateNavAnimation() {
             if (scrollY.get() > 80) {
@@ -141,12 +145,20 @@ function Header(){
         scrollY.on("change", updateNavAnimation);
 
     }, [scrollY, navAnimation]);
-    const history = useHistory();
+
+    useEffect(() => {
+      if(!searchMatch){
+        setValue("keyword", "");
+        toggleSearch();
+      }
+    }, [searchMatch]);
+
+    const navigate = useNavigate();
     const {register, handleSubmit, setValue} = useForm<IForm>();
     const onValid = (data:IForm) => {
-      window.location.replace(`/search?keyword=${data.keyword}`);
-      //history.push(`/search?keyword=${data.keyword}`); //history.push를 하면 검색어가 바로 바뀌지 않으므로 window.location.replace를 사용
-      //alert("왜 꼭 alert을 띄워줘야 바로 동작하지?");
+      //window.location.replace(`/search?keyword=${data.keyword}`);
+      navigate(`/search?keyword=${data.keyword}`); //history.push를 하면 검색어가 바로 바뀌지 않으므로 window.location.replace를 사용
+      alert("검색이 완료되었습니다.");
     } 
 
     return (

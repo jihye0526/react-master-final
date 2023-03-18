@@ -30,7 +30,7 @@ const Genre = styled.span`
   font-weight: 500;
   font-size: 15px;
   position: absolute;
-  right: 15px;
+  right: 20px;
 `;
 
 interface IPopUp {
@@ -64,24 +64,26 @@ export default function PopUp(data : IPopUp){
                 </BigCover>
                 }
                 <BigTitle>
-                  <span style={{ display: "inline-block", width: "450px" }}>{data.clickedMovie.title? data.clickedMovie.title : data.clickedMovie.name}</span>
-                  <span style={{ position:"absolute", right: "15px", fontSize: "23px" }}>
-                    <StarRatings
-                      rating={grade}
-                      starRatedColor="#F4CD1E"
-                      starDimension="32px"
-                      starSpacing="5px"
-                    /> / {grade}점
+                  <span style={{ display: "inline-block", marginBottom: "20px" }}>
+                    <span style={{display: "flex"}}>{data.clickedMovie.title? data.clickedMovie.title : data.clickedMovie.name}</span>
+                    <span style={{ position:"absolute", right: "20px", fontSize: "23px" }}>
+                      <StarRatings
+                        rating={grade}
+                        starRatedColor="#F4CD1E"
+                        starDimension="30px"
+                        starSpacing="1px"
+                      /> / {grade}점</span>
                   </span>
+                  
                 </BigTitle>
                 <BigOverview>
                     {data.clickedMovie.overview ? data.clickedMovie.overview :
                       <>
                         <Genre>장르 : 
                           {data.clickedMovie.genre_ids.map((id) => 
-                            <span>
+                            <span key={id}>
                               {movieGData?.genres.map((genre) => id === genre.id ? 
-                                <span> {genre.name} </span> : 
+                                <span key={genre.name}> {genre.name} </span> : 
                                 null)} 
                             </span>
                           )}
