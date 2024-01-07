@@ -18,6 +18,11 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent />
             },
             {
+                path: "react-master-final",
+                element: <Home />,
+                errorElement: <ErrorComponent />
+            },
+            {
                 path: "tv/*",
                 element: <Tv />,
                 errorElement: <ErrorComponent />
@@ -33,7 +38,10 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent />,
             },
         ]
+    }], 
+    {
+        basename: "/react-master-final",
     }
-]);
+);
 
 export default router;

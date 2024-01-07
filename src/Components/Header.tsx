@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link, useNavigate, useMatch } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-import { getSearchMovies, IGetNetFlixResult } from "../api";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -117,7 +115,6 @@ function Header(){
     const [searchOpen, setSearchOpen] = useState(false);
     const movieMatch = useMatch("/movie");
     const tvMatch = useMatch("/tv");
-    const searchMatch = useMatch("/search");
     const inputAnimation = useAnimation();
     const navAnimation = useAnimation();
     const { scrollY } = useScroll(); // useViewportScroll -> useScroll로 변경
@@ -146,19 +143,12 @@ function Header(){
 
     }, [scrollY, navAnimation]);
 
-    useEffect(() => {
-      if(!searchMatch){
-        setValue("keyword", "");
-        toggleSearch();
-      }
-    }, [searchMatch]);
-
     const navigate = useNavigate();
     const {register, handleSubmit, setValue} = useForm<IForm>();
     const onValid = (data:IForm) => {
-      //window.location.replace(`/search?keyword=${data.keyword}`);
-      navigate(`/search?keyword=${data.keyword}`); //history.push를 하면 검색어가 바로 바뀌지 않으므로 window.location.replace를 사용
-      alert("검색이 완료되었습니다.");
+      window.location.replace(`/react-master-final/search?keyword=${data.keyword}`);
+      //navigate(`/search?keyword=${data.keyword}`); //history.push를 하면 검색어가 바로 바뀌지 않으므로 window.location.replace를 사용
+      //alert("검색이 완료되었습니다.");
     } 
 
     return (

@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { getSearchMovies, getSearchTvs, IGetNetFlixResult } from "../api";
+import SearchResultComp from "../Components/SearchResultComp";
 import { makeImagePath } from "../utils";
 
 const Loader = styled.div`
@@ -96,13 +97,7 @@ function Search(){
                         <ResultCnt>영화({srchMovieData?.total_results}건)</ResultCnt>
                         <NetFlixResult>
                             {srchMovieData?.results.map((movie) => 
-                                <NetFlix key={movie.id}>
-                                    <Img>
-                                        <img src={makeImagePath(movie.poster_path, "w200")} alt={`${movie.title} 영화 포스터 이미지`} style={{ width:"200px", height:"300px" }}/>
-                                    </Img>
-                                    <Title>{movie.title}</Title>
-                                </NetFlix>
-                                
+                                <SearchResultComp result={movie}></SearchResultComp>
                             )}
                         </NetFlixResult>
                     </Section>
@@ -111,13 +106,7 @@ function Search(){
                         <ResultCnt>TV 프로그램({srchTvData?.total_results}건)</ResultCnt>
                         <NetFlixResult>
                             {srchTvData?.results.map((movie) => 
-                                <NetFlix key={movie.id}>
-                                    <Img>
-                                        <img src={makeImagePath(movie.poster_path, "w200")} alt={`${movie.name} TV 프로그램 이미지`} style={{ width:"200px", height:"300px" }}/>
-                                    </Img>
-                                    <Title>{movie.name}</Title>
-                                </NetFlix>
-                                
+                                <SearchResultComp result={movie}></SearchResultComp>
                             )}
                         </NetFlixResult>
                     </Section>
