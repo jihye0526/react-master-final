@@ -37,7 +37,7 @@ export interface IGetNetFlixResult {
 
 // 영화
 export function getKoreaMoviess(){
-    return fetch(`${BASE_PATH}/discover/movie/?api_key=${API_KEY}&language=${LANGUAGE}&with_original_language=${LANGUAGE}&sort_by=popularity.desc&include_adult=false&vote_count.gte=${RATE}&primary_release_date.gte=${DATE}`).then(res => res.json());
+    return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=${LANGUAGE}&with_original_language=${LANGUAGE}&sort_by=popularity.desc&include_adult=false&vote_count.gte=${RATE}&primary_release_date.gte=${DATE}`).then(res => res.json());
 }
 
 export function getMovies(){
